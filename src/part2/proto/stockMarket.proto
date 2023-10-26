@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package stockMarket;
+
+// The stock market service definition.
+service StockMarket {
+  // Sends the Price and Trading volume for the given Stock Name
+  rpc LookUp (LookUpRequest) returns (LookUpResponse) {}
+  // Sends 1 if the trade succeeds, 0 if trading is suspended, and -1 if an invalid stock name is specified in the detail
+  rpc Trade (TradeRequest) returns (TradeResponse) {}
+  // Sends 1 if the update is successful, -1 if an invalid stock name is specified, and -2 if an invalid price (e.g, negative value) is specified
+  rpc Update (UpdateRequest) returns (UpdateResponse) {}
+}
+
+// The message containing the stock's name.
+message LookUpRequest {
+  string stockName = 1;
+}
+
+// The response message containing the stock's price and available volume
+message LookUpResponse {
+  double stockPrice = 1;
+  int32 stockVol = 2;
+}
+
+// The message containing the stock's name, quantity and whether to buy or sell the stock
+message TradeRequest {
+  string stockName = 1;
+  int32 stockQuantity = 2;
+  string stockType = 3;
+}
+
+// The response message containing the status of the trade
+message TradeResponse {
+  int32 tradeStatus = 1;
+}
+
+// The message containing the stock's name and price to be
+message UpdateRequest {
+  string stockName = 1;
+  double stockPrice = 2;
+}
+
+// The response message containing the status of the update
+message UpdateResponse {
+  int32 updateStatus = 1;
+}
